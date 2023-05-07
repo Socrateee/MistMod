@@ -3,6 +3,7 @@ package net.socrate.mist;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -22,6 +23,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.socrate.mist.item.ModItems;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -37,6 +39,8 @@ public class Mist
     public Mist()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModItems.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -56,6 +60,9 @@ public class Mist
     private void addCreative(CreativeModeTabEvent.BuildContents event)
     {
 
+        if (event.getTab() == CreativeModeTabs.REDSTONE_BLOCKS) {
+            event.accept(ModItems.PROTECTOR );
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
